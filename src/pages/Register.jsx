@@ -3,6 +3,8 @@ import { auth, db } from "../services/firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
 import toast from "react-hot-toast";
+import { Link } from "react-router-dom";
+
 
 const generateCaptcha = () => {
   const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
@@ -168,9 +170,9 @@ export default function Register() {
 
           <p className="text-center text-sm mt-6">
             Already have an account?{" "}
-            <a href="/login" className="text-yellow-600 hover:underline">
+            <Link to="/login" className="text-yellow-600 hover:underline">
               Log in
-            </a>
+            </Link>
           </p>
         </div>
       </div>

@@ -3,7 +3,7 @@ import { auth, db } from "../services/firebase";
 import { signInWithEmailAndPassword, signOut } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
 import toast from "react-hot-toast";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 const ADMIN_EMAIL = "admin@militaryhostel.com"; // ✅ Your admin email
 const ADMIN_KEY = "MHGS"; // ✅ Admin secret key
@@ -189,9 +189,9 @@ export default function Login() {
 
           <p className="mt-8 text-center text-sm text-gray-500">
             Need an account?{" "}
-            <a href="/register" className="text-yellow-600 hover:underline">
+            <Link to="/register" className="text-yellow-600 hover:underline">
               Contact Administration
-            </a>
+            </Link>
           </p>
         </div>
       </div>

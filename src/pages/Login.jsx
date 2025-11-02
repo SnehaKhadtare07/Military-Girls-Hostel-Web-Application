@@ -43,7 +43,7 @@ export default function Login() {
     // ✅ ADMIN LOGIN (Skip Firebase)
    if (form.email === ADMIN_EMAIL) {
   if (adminKey === ADMIN_KEY) {
-    localStorage.setItem("isAdmin", "true"); // ✅ store admin session
+    localStorage.setItem("isAdmin", btoa(ADMIN_EMAIL)); // ✅ store admin session with encoded email
     toast.success("Admin Login Successful ✅");
     navigate("/admin-dashboard");
     return;
@@ -157,7 +157,7 @@ export default function Login() {
             {/* CAPTCHA */}
             <div>
               <div className="flex items-center space-x-4">
-                <div className="captcha-image bg-gray-200 text-gray-800 font-mono text-xl tracking-widest px-4 py-2 rounded-lg select-none line-through">
+                <div className="captcha-image bg-gray-200 text-gray-900 font-bold font-mono text-xl tracking-widest px-4 py-2 rounded-lg select-none line-through">
                   {captcha}
                 </div>
                 <input

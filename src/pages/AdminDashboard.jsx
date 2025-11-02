@@ -71,42 +71,51 @@ export default function AdminDashboard() {
     return () => unsubscribe();
   }, []);
 
-  // fetch registrations
+  // auth check
   useEffect(() => {
-    if (active === "Registration Management") fetchRegistrations();
+    const isAdmin = atob(localStorage.getItem("isAdmin") || "") === ADMIN_EMAIL;
+    if (!isAdmin && (!user || user.email !== ADMIN_EMAIL)) {
+      navigate("/login");
+    }
+  }, [user, navigate]);
+
+  // fetch registrations with live updates
+  useEffect(() => {
+    if (active === "Registration Management") {
+      const q = query(collection(db, "users"));
+      const unsub = onSnapshot(q, (snapshot) => {
+        let data = snapshot.docs.map(docu => ({ id: docu.id, ...docu.data() }));
+
+        data.sort((a, b) => {
+          if (a.status === "pending" && b.status !== "pending") return -1;
+          if (b.status === "pending" && a.status !== "pending") return 1;
+          return 0;
+        });
+
+        setRegistrations(data);
+      }, (error) => {
+        console.error("Error fetching registrations:", error);
+        toast.error("Error loading registrations");
+      });
+      return () => unsub();
+    }
   }, [active]);
 
-  const fetchRegistrations = async () => {
+  const handleStatusChange = async (uid, newStatus) => {
     try {
-      const snapshot = await getDocs(collection(db, "users"));
-      let data = [];
-      snapshot.forEach((docu) => data.push({ id: docu.id, ...docu.data() }));
-
-      data.sort((a, b) => {
-        if (a.status === "pending" && b.status !== "pending") return -1;
-        if (b.status === "pending" && a.status !== "pending") return 1;
-        return 0;
-      });
-
-      setRegistrations(data);
-    } catch (error) {
-      console.error("Error fetching registrations:", error);
-      toast.error("Error loading registrations");
-    }
-  };
-
-  const handleStatusChange = async (id, newStatus) => {
-    try {
-      const userRef = doc(db, "users", id);
+      const userRef = doc(db, "users", uid);
       await updateDoc(userRef, {
         status: newStatus,
         updatedAt: serverTimestamp(),
       });
-      toast.success(`User ${newStatus}`);
-      fetchRegistrations();
+      toast.success(`User ${newStatus} ✅`);
+      // Update local state instead of re-fetching
+      setRegistrations(prev =>
+        prev.map(r => (r.id === uid ? { ...r, status: newStatus } : r))
+      );
     } catch (error) {
-      console.error(error);
-      toast.error("Error updating status");
+      console.error("Error updating status:", error);
+      toast.error("Error updating status: " + error.message);
     }
   };
 
@@ -132,6 +141,7 @@ export default function AdminDashboard() {
   const handleLogout = async () => {
     localStorage.removeItem("isAdmin");
     await signOut(auth);
+    toast("Admin logged out 👋");
     navigate("/");
   };
 
@@ -374,8 +384,8 @@ useEffect(() => {
               <p className="text-gray-500 text-center">No outpass requests yet.</p>
             ) : (
               <table className="w-full border border-gray-200 rounded-lg">
-                <thead>
-                  <tr className="bg-green-100 text-green-900 text-left">
+                <thead className="sticky top-0 bg-green-100 text-green-900 text-left">
+                  <tr>
                     <th className="p-3 border">Resident Name</th>
                     <th className="p-3 border">Room No</th>
                     <th className="p-3 border">From</th>
@@ -415,7 +425,7 @@ useEffect(() => {
               ) : (
                 <div className="max-h-[60vh] overflow-y-auto space-y-3">
                   {complaints.map((c) => (
-                    <div key={c.id} onClick={() => { setSelectedComplaint(c); if (c.status === "unseen") markComplaintStatus(c.id, "seen"); }} className="p-3 border rounded-md bg-gray-50 hover:shadow cursor-pointer flex justify-between items-start">
+                    <div key={c.id} onClick={() => { setSelectedComplaint(c); if (c.status === "unseen") markComplaintStatus(c.id, "seen"); }} className={`p-3 border rounded-md bg-gray-50 hover:shadow cursor-pointer flex justify-between items-start ${c.status === "unseen" ? "border-green-500" : ""}`}>
                       <div>
                         <p className="font-semibold">{c.subject}</p>
                         <p className="text-sm text-gray-600 mt-1 line-clamp-2">{c.message}</p>

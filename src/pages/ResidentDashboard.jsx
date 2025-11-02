@@ -46,12 +46,6 @@ export default function ResidentDashboard() {
   });
 
   const [showOutpassModal, setShowOutpassModal] = useState(false);
-  const [showAppointmentModal, setShowAppointmentModal] = useState(false);
-  const [appointment, setAppointment] = useState({
-    purpose: "",
-    appointmentDate: "",
-    notes: "",
-  });
   const [outpass, setOutpass] = useState({
     name: "",
     className: "",
@@ -396,7 +390,7 @@ export default function ResidentDashboard() {
         </div>
 
         {/* Top Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {/* My Room */}
           <div className="bg-white rounded-xl p-6 shadow-md relative">
             <h3 className="text-lg font-semibold mb-4">
@@ -444,16 +438,6 @@ export default function ResidentDashboard() {
             </div>
             <p className="text-sm text-gray-500 text-center mb-4">Have an issue? File your complaint here.</p>
             <button onClick={() => setShowComplaintModal(true)} className="py-2 px-4 bg-green-700 text-white rounded-full hover:bg-green-800 active:scale-95">File Complaint</button>
-          </div>
-
-          {/* Appointment */}
-          <div className="bg-white rounded-xl p-6 shadow-md flex flex-col items-center justify-between">
-            <div className="flex items-center gap-3 mb-3">
-              <span className="material-symbols-outlined text-green-700 text-3xl">event_note</span>
-              <h3 className="text-lg font-semibold">Book Appointment</h3>
-            </div>
-            <p className="text-sm text-gray-500 text-center mb-4">Schedule a meeting with the superintendent.</p>
-            <button onClick={() => setShowAppointmentModal(true)} className="py-2 px-4 bg-green-700 text-white rounded-full hover:bg-green-800 active:scale-95">Book Appointment</button>
           </div>
 
         </div>

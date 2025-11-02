@@ -1,0 +1,119 @@
+.rulebook-container {
+  font-family: Arial, sans-serif;
+  background-color: #ffffffff;
+  color: #333;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.rulebook-header {
+  background-color: #2d502b;
+  color: white;
+  text-align: center;
+  padding: 20px;
+}
+
+.rulebook-header h1 {
+  margin: 0;
+  font-size: 28px;
+}
+
+.rulebook-header p {
+  margin-top: 8px;
+  font-size: 16px;
+  color: #dcdcdc;
+}
+
+.rulebook-main {
+  flex-grow: 1;
+  max-width: 900px;
+  margin: 20px auto;
+  padding: 20px;
+  position: relative;
+}
+
+.rule-item {
+  border-left: 4px solid #2d502b;
+  padding-left: 12px;
+  margin-bottom: 20px;
+}
+
+.rule-item h2 {
+  font-size: 20px;
+  color: #2d502b;
+  margin-bottom: 6px;
+}
+
+.gold-highlight {
+  color: #c9a43d;
+  font-weight: bold;
+}
+
+.rule-item p {
+  font-size: 15px;
+  line-height: 1.6;
+  color: #444;
+}
+
+.agreement-box {
+  margin-top: 30px;
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #f0f5f0;
+}
+
+.agreement-box label {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  font-size: 14px;
+  color: #333;
+}
+
+.agreement-box input[type="checkbox"] {
+  margin-top: 4px;
+}
+
+.proceed-btn {
+  margin-top: 15px;
+  padding: 10px 20px;
+  background-color: #2d502b;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 15px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.proceed-btn:disabled {
+  background-color: #8ca58b;
+  cursor: not-allowed;
+}
+
+.proceed-btn:hover:not(:disabled) {
+  background-color: #244123;
+}
+
+.rulebook-footer {
+  background-color: #244123 ;
+  text-align: center;
+  padding: 12px;
+  font-size: 14px;
+  color: #ffffffff;
+  border-top: 1px solid #ddd;
+}
+
+.reset-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: #ffff99;
+  color: #333;
+  border: 1px solid #ccc;
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+}
